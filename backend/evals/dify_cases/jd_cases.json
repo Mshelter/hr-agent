@@ -1,0 +1,74 @@
+{
+  "cases": [
+    {
+      "id": "jd_001_multimodal_cv_engineer",
+      "name": "多模态大模型与计算机视觉算法工程师 JD 生成",
+      "workflow_type": 1,
+      "query": "请生成一份多模态大模型与计算机视觉算法工程师 JD。岗位面向具有硕士学历或优秀本科背景、1年以上算法研发或科研实践的人才。核心工作包括多模态 AIGC、目标检测与图像识别算法研发，完成数据处理、模型训练、效果评估、系统建模和算法部署。要求熟练掌握 Python、PyTorch、OpenCV，熟悉 YOLO、MMDetection 或 MMCV，理解深度学习、计算机视觉和多模态模型，具备论文、专利或技术文档撰写能力。有 PyQt 工具开发、云平台测试用例部署、软件可靠性建模经验者优先。请包含岗位职责、任职要求、加分项和岗位产出，不要添加与输入冲突的硬性条件。",
+      "inputs": {
+        "position_title": "多模态大模型与计算机视觉算法工程师",
+        "experience_level": "1年以上算法研发或科研实践",
+        "task": "eval_generate_jd"
+      },
+      "expected_keywords": ["多模态", "计算机视觉", "Python", "PyTorch", "目标检测", "模型训练"],
+      "required_sections": ["职责", "要求", "加分"],
+      "forbidden_keywords": ["Java开发", "销售经验", "仅限博士"],
+      "min_length": 220,
+      "rubric": "JD 应准确生成多模态大模型与计算机视觉算法工程师岗位，重点覆盖 Python/PyTorch、目标检测、图像识别、多模态 AIGC、数据处理、模型训练与部署；应包含职责、要求和加分项。学历和经验门槛不得擅自提高，不得改写成 Java、销售或纯产品岗位。",
+      "tags": ["岗位JD", "多模态", "计算机视觉", "简历画像匹配"]
+    },
+    {
+      "id": "jd_002_rag_agent_engineer",
+      "name": "RAG 与 AI Agent 算法工程师 JD 生成",
+      "workflow_type": 1,
+      "query": "请生成一份 RAG 与 AI Agent 算法工程师 JD。工作地点长沙，本科及以上，要求2年以上大模型应用或算法项目经验。岗位负责企业知识库问答、Agent 应用和垂直领域智能助手研发，包括 PDF 文档解析与切分、向量检索、召回与生成链路、Agent 编排、多模态应用和大模型微调。要求熟练掌握 Python、LangChain、RAG、FAISS，熟悉 Llama 系列模型、Ollama、Gradio 或 Streamlit，了解 CrewAI、GraphRAG、AutoGen、LoRA/P-tuning 等技术。请包含岗位职责、任职要求、加分项和交付指标。",
+      "inputs": {
+        "position_title": "RAG与AI Agent算法工程师",
+        "department": "人工智能应用研发部",
+        "experience_level": "2年以上",
+        "task": "eval_generate_jd"
+      },
+      "expected_keywords": ["RAG", "AI Agent", "Python", "LangChain", "FAISS", "长沙"],
+      "required_sections": ["职责", "要求", "加分"],
+      "forbidden_keywords": ["纯前端开发", "销售经理", "仅限博士"],
+      "min_length": 220,
+      "rubric": "JD 应围绕 RAG、AI Agent 和大模型应用研发，保留长沙、本科及以上、2年以上经验等条件，覆盖 PDF 知识库、向量检索、LangChain、FAISS、Llama/Ollama 及 Agent 编排。不得写成纯前端、销售或传统数据录入岗位。",
+      "tags": ["岗位JD", "RAG", "AI Agent", "长沙", "简历画像匹配"]
+    },
+    {
+      "id": "jd_003_llm_fullstack_engineer",
+      "name": "大模型应用全栈开发工程师 JD 生成",
+      "workflow_type": 1,
+      "query": "请生成一份大模型应用全栈开发工程师 JD。本科及以上，3年以上软件研发经验。岗位负责企业智能助手和大模型应用平台的前后端开发，包括 React 或 TypeScript 前端、Python Flask/FastAPI 后端、ChatGPT 或兼容大模型 API 接入、Prompt 配置、历史对话与用户数据管理、Token 用量统计和告警。要求熟悉 Python、TypeScript、React、MongoDB、Redis，掌握异步编程、接口设计、鉴权和线上系统维护。有完整产品从开发到上线运营、性能优化或高并发项目经验者优先。请包含岗位职责、任职要求、加分项和技术栈。",
+      "inputs": {
+        "position_title": "大模型应用全栈开发工程师",
+        "experience_level": "3年以上软件研发经验",
+        "task": "eval_generate_jd"
+      },
+      "expected_keywords": ["大模型应用", "Python", "TypeScript", "React", "MongoDB", "Redis"],
+      "required_sections": ["职责", "要求", "技术栈"],
+      "forbidden_keywords": ["应届生岗位", "仅做模型训练", "Java工程师"],
+      "min_length": 220,
+      "rubric": "JD 应生成兼顾前端、Python 后端和大模型 API 集成的全栈岗位，覆盖 TypeScript/React、Flask 或 FastAPI、MongoDB、Redis、异步编程、鉴权、Token 统计与告警，并保留3年以上软件研发经验要求。不得改成纯模型训练或 Java 岗位。",
+      "tags": ["岗位JD", "大模型应用", "全栈开发", "简历画像匹配"]
+    },
+    {
+      "id": "jd_004_llm_training_deployment_engineer",
+      "name": "大模型训练与推理部署工程师 JD 生成",
+      "workflow_type": 1,
+      "query": "请生成一份大模型训练与推理部署工程师 JD，工作地点长沙，计算机相关专业本科及以上，接受1年以上相关实践或优秀项目经历。岗位负责大模型数据处理、微调、RAG/Agent 应用验证以及 GPU/昇腾环境中的推理部署和性能测试。要求熟练掌握 Python、Transformer、ChatGLM/Llama、LoRA，理解 FP16/BF16/FP32、KV Cache、数据并行、模型并行和张量并行；熟悉 LangChain、FAISS、Docker、ONNX，具备 NVIDIA Jetson 或华为昇腾 Atlas/Ascend 平台经验。有模型从 PyTorch 转 ONNX/TensorRT、昇思框架、多卡推理训练、数据标注经验者优先。请包含岗位职责、任职要求、加分项和技术栈。",
+      "inputs": {
+        "position_title": "大模型训练与推理部署工程师",
+        "department": "大模型基础设施与应用部",
+        "experience_level": "1年以上相关实践或优秀项目经历",
+        "task": "eval_generate_jd"
+      },
+      "expected_keywords": ["Transformer", "LoRA", "Docker", "昇腾", "模型并行", "长沙"],
+      "required_sections": ["职责", "要求", "加分", "技术栈"],
+      "forbidden_keywords": ["纯产品经理", "销售经验", "仅限博士"],
+      "min_length": 240,
+      "rubric": "JD 应同时覆盖大模型微调与推理部署，保留长沙、本科及以上以及可接受项目实践的门槛；技术要求应包含 Python、Transformer、LoRA、精度类型、KV Cache、并行训练、Docker、ONNX 和昇腾或 NVIDIA 平台。不得写成纯产品或销售岗位，也不得擅自要求博士。",
+      "tags": ["岗位JD", "大模型训练", "推理部署", "昇腾", "长沙", "简历画像匹配"]
+    }
+  ]
+}

@@ -1,0 +1,122 @@
+{
+  "cases": [
+    {
+      "id": "agent_jd_001",
+      "name": "JD 创建基础意图和确认表单",
+      "message": "帮我生成一个 Java 后端工程师 JD，上海，3-5 年经验，薪资 20-30K，本科以上",
+      "expected_intent": "jd",
+      "expected_route": "/recruitment/jd-generator",
+      "expected_requires_confirmation": true,
+      "expected_artifact_types": ["requirements"],
+      "expected_step_ids": ["parse", "confirm", "jd"],
+      "expected_tools": ["parse_requirements", "generate_jd"],
+      "content_checks": {
+        "artifact:requirements.content.job_title": {"contains": "Java"},
+        "artifact:requirements.content.location": {"contains": "上海"}
+      },
+      "rubric": "应识别为 JD 生成任务，提取岗位、地点、经验、薪资、学历等招聘字段，返回 requirements 供前端确认，不能直接跳过确认生成最终 JD。",
+      "tags": ["jd", "confirmation", "artifact"]
+    },
+    {
+      "id": "agent_resume_001",
+      "name": "简历筛选缺少附件时返回上传请求",
+      "message": "帮我做简历筛选，看看候选人和 Java 后端岗位是否匹配",
+      "expected_intent": "resume_screening",
+      "expected_route": "/recruitment/resume-screening",
+      "expected_requires_confirmation": false,
+      "expected_artifact_types": ["resume_upload_request"],
+      "expected_step_ids": ["upload", "select_jd", "evaluate"],
+      "expected_tools": ["evaluate_resume"],
+      "content_checks": {
+        "artifact:resume_upload_request.content.accepted_formats": {"contains": "pdf"}
+      },
+      "rubric": "应识别为简历筛选任务，在没有附件时明确要求用户上传 PDF/DOC/DOCX 简历，并返回前端可识别的 resume_upload_request。",
+      "tags": ["resume_screening", "missing_prerequisite"]
+    },
+    {
+      "id": "agent_resume_002",
+      "name": "简历筛选带附件时进入选择 JD 流程",
+      "message": "帮我筛选这些简历，匹配当前 Java 后端岗位",
+      "attachments": [
+        {"name": "张三_Java后端.pdf", "size": 120000, "content_type": "application/pdf"},
+        {"name": "李四_后端工程师.docx", "size": 98000, "content_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"}
+      ],
+      "expected_intent": "resume_screening",
+      "expected_route": "/recruitment/resume-screening",
+      "expected_requires_confirmation": false,
+      "expected_artifact_types": ["resume_upload_request"],
+      "expected_step_ids": ["upload", "select_jd", "evaluate"],
+      "expected_step_statuses": {
+        "upload": "completed",
+        "select_jd": "running",
+        "evaluate": "pending"
+      },
+      "content_checks": {
+        "artifact:resume_upload_request.content.file_count": 2,
+        "artifact:resume_upload_request.content.requires_job_description": true
+      },
+      "rubric": "应识别到简历附件数量，进入选择 JD 后再评分的流程，不能在没有 JD 的情况下直接评分。",
+      "tags": ["resume_screening", "attachments", "workflow"]
+    },
+    {
+      "id": "agent_email_001",
+      "name": "邮件 Skill 生成草稿并要求确认",
+      "message": "帮我给 candidate@example.com 写一封面试邀请邮件，岗位是 Java 后端工程师",
+      "expected_intent": "email_notification",
+      "expected_route": "/system/email-configs",
+      "expected_requires_confirmation": true,
+      "expected_artifact_types": ["email_draft", "email_send_request"],
+      "expected_step_ids": ["draft", "confirm_send", "send_email"],
+      "expected_tools": ["draft", "send"],
+      "content_checks": {
+        "artifact:email_send_request.content.action": "send_email",
+        "artifact:email_send_request.content.recipient_email": "candidate@example.com",
+        "artifact:email_send_request.content.subject": {"min_length": 4},
+        "artifact:email_send_request.content.body": {"min_length": 20}
+      },
+      "rubric": "应调用 hr-agent-email skill 的 draft 阶段，生成邮件草稿和 email_send_request，必须 requires_confirmation=true，不能直接发送邮件。",
+      "tags": ["email_notification", "skill", "confirmation"]
+    },
+    {
+      "id": "agent_exam_001",
+      "name": "考试生成缺少文档时返回上传请求",
+      "message": "根据技术文档生成一套 Java 笔试试卷，选择题 10 道，简答题 3 道",
+      "expected_intent": "exam_generate",
+      "expected_route": "/training/exam-generator",
+      "expected_requires_confirmation": false,
+      "expected_artifact_types": ["exam_document_upload_request"],
+      "expected_step_ids": ["upload_docs", "confirm_exam", "generate_exam"],
+      "expected_tools": ["generate_exam"],
+      "content_checks": {
+        "artifact:exam_document_upload_request.content.requires_document_upload": true
+      },
+      "rubric": "应识别为考试生成任务，在没有参考文档时要求上传文档，并返回 exam_document_upload_request，而不是编造试题。",
+      "tags": ["exam_generate", "missing_prerequisite"]
+    },
+    {
+      "id": "agent_interview_001",
+      "name": "面试方案缺少候选人时返回选择请求",
+      "message": "帮我生成一份 Java 后端候选人的智能面试方案",
+      "expected_intent": "interview_plan",
+      "expected_route": "/recruitment/smart-interview",
+      "expected_requires_confirmation": false,
+      "expected_artifact_types": ["interview_plan_request"],
+      "expected_step_ids": ["select_resume", "generate_plan"],
+      "expected_tools": ["generate_interview_plan"],
+      "rubric": "应识别为面试方案任务，并提示需要选择或匹配已评分候选人，返回前端可继续操作的 interview_plan_request。",
+      "tags": ["interview_plan", "missing_prerequisite"]
+    },
+    {
+      "id": "agent_general_001",
+      "name": "普通寒暄不应误触发工具",
+      "message": "你好，介绍一下你能做什么",
+      "expected_intent": "general",
+      "expected_requires_confirmation": false,
+      "forbidden_artifact_types": ["requirements", "resume_upload_request", "email_send_request", "exam_document_upload_request"],
+      "expected_step_ids": ["understand"],
+      "expected_message_keywords": ["JD"],
+      "rubric": "应作为普通对话处理，不应误触发招聘工具或返回业务 artifacts，回复可以简要说明 HR Agent 能力边界。",
+      "tags": ["general"]
+    }
+  ]
+}

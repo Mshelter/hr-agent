@@ -1,0 +1,68 @@
+{
+  "cases": [
+    {
+      "id": "scoring_001_multimodal_cv_engineer",
+      "name": "多模态大模型与计算机视觉算法工程师评分标准生成",
+      "workflow_type": 2,
+      "query": "请基于以下JD生成简历初筛评分标准，总分100分。\n\n岗位：多模态大模型与计算机视觉算法工程师\n学历经验：硕士学历或优秀本科背景，1年以上算法研发或科研实践。\n岗位职责：多模态AIGC、目标检测和图像识别算法研发；数据处理、模型训练、效果评估、系统建模与算法部署；撰写论文、专利或技术文档。\n核心要求：Python、PyTorch、OpenCV，熟悉YOLO、MMDetection或MMCV，理解深度学习、计算机视觉和多模态模型。\n加分项：PyQt工具开发、云平台测试用例部署、软件可靠性建模、论文或专利成果。\n\n请给出学历与经验、核心技能、项目匹配、工程交付、成果加分和淘汰项；每个维度需有分值及可从简历核验的评分规则。",
+      "inputs": {
+        "job_title": "多模态大模型与计算机视觉算法工程师",
+        "task": "eval_generate_scoring_criteria"
+      },
+      "expected_keywords": ["Python", "PyTorch", "目标检测", "多模态", "项目"],
+      "required_sections": ["学历", "经验", "技能", "项目", "加分", "淘汰"],
+      "forbidden_keywords": ["总分120", "满分150", "Java开发经验优先"],
+      "min_length": 280,
+      "rubric": "评分标准必须与对应 JD 一致并采用100分制，重点量化 Python/PyTorch、计算机视觉、目标检测、多模态 AIGC、模型训练与部署、项目成果和文档产出。至少4个客观维度应给出明确分值或分值区间，并包含合理加分项和淘汰项；不得加入 Java 等无关硬性要求。",
+      "tags": ["评分标准", "多模态", "计算机视觉", "对应jd_001"]
+    },
+    {
+      "id": "scoring_002_rag_agent_engineer",
+      "name": "RAG 与 AI Agent 算法工程师评分标准生成",
+      "workflow_type": 2,
+      "query": "请基于以下JD生成简历初筛评分标准，总分100分。\n\n岗位：RAG与AI Agent算法工程师\n地点及门槛：长沙，本科及以上，2年以上大模型应用或算法项目经验。\n岗位职责：企业知识库问答、Agent应用、垂直领域智能助手、多模态应用和大模型微调；完成PDF解析切分、向量检索、召回生成链路和Agent编排。\n核心要求：Python、LangChain、RAG、FAISS，熟悉Llama、Ollama、Gradio或Streamlit。\n加分项：CrewAI、GraphRAG、AutoGen、LoRA/P-tuning及可量化的项目效果。\n\n请从学历经验、RAG链路、Agent能力、模型应用、项目交付和加分项进行量化评分，并列出淘汰项。",
+      "inputs": {
+        "job_title": "RAG与AI Agent算法工程师",
+        "task": "eval_generate_scoring_criteria"
+      },
+      "expected_keywords": ["RAG", "AI Agent", "LangChain", "FAISS", "Python"],
+      "required_sections": ["学历", "经验", "技能", "项目", "加分", "淘汰"],
+      "forbidden_keywords": ["总分120", "满分150", "纯前端开发"],
+      "min_length": 280,
+      "rubric": "评分标准应严格对应长沙 RAG 与 AI Agent 算法工程师 JD，总分100分；重点量化 PDF 知识库处理、向量检索、LangChain/FAISS、Llama/Ollama、Agent 编排、微调与项目交付效果。各维度应能从简历中核验，避免以性格或主观印象作为主要评分依据。",
+      "tags": ["评分标准", "RAG", "AI Agent", "对应jd_002"]
+    },
+    {
+      "id": "scoring_003_llm_fullstack_engineer",
+      "name": "大模型应用全栈开发工程师评分标准生成",
+      "workflow_type": 2,
+      "query": "请基于以下JD生成简历初筛评分标准，总分100分。\n\n岗位：大模型应用全栈开发工程师\n学历经验：本科及以上，3年以上软件研发经验。\n岗位职责：企业智能助手和大模型应用平台前后端开发；React/TypeScript前端、Python Flask或FastAPI后端、大模型API接入、Prompt配置、历史对话与用户数据、Token统计及告警。\n核心要求：Python、TypeScript、React、MongoDB、Redis、异步编程、接口设计、鉴权和线上维护。\n加分项：完整产品上线运营、性能优化、高并发或大型持续运营项目经验。\n\n请从基础门槛、前端能力、Python后端、数据存储、大模型集成、工程交付和加分项设计量化规则，并明确淘汰项。",
+      "inputs": {
+        "job_title": "大模型应用全栈开发工程师",
+        "task": "eval_generate_scoring_criteria"
+      },
+      "expected_keywords": ["Python", "TypeScript", "React", "MongoDB", "Redis"],
+      "required_sections": ["学历", "经验", "技能", "项目", "加分", "淘汰"],
+      "forbidden_keywords": ["总分120", "满分150", "仅考察模型训练"],
+      "min_length": 280,
+      "rubric": "评分标准应对应大模型应用全栈开发 JD，采用100分制并平衡 TypeScript/React、Python Flask/FastAPI、MongoDB/Redis、大模型 API、异步编程、鉴权、Token 统计告警和上线运维能力。需明确3年以上经验门槛、量化项目交付和加分项，不得退化为纯算法训练评分。",
+      "tags": ["评分标准", "大模型应用", "全栈开发", "对应jd_003"]
+    },
+    {
+      "id": "scoring_004_llm_training_deployment_engineer",
+      "name": "大模型训练与推理部署工程师评分标准生成",
+      "workflow_type": 2,
+      "query": "请基于以下JD生成简历初筛评分标准，总分100分。\n\n岗位：大模型训练与推理部署工程师\n地点及门槛：长沙，计算机相关专业本科及以上，1年以上相关实践或优秀项目经历。\n岗位职责：大模型数据处理、微调、RAG/Agent验证，GPU或昇腾环境的推理部署与性能测试。\n核心要求：Python、Transformer、ChatGLM/Llama、LoRA，理解FP16/BF16/FP32、KV Cache、数据并行、模型并行和张量并行；熟悉LangChain、FAISS、Docker、ONNX。\n加分项：NVIDIA Jetson、华为昇腾Atlas/Ascend、TensorRT、昇思框架、多卡推理训练和数据标注经验。\n\n请从学历与实践、模型原理、微调训练、RAG/Agent、部署优化、硬件平台和加分项设计量化评分，并列出淘汰项。",
+      "inputs": {
+        "job_title": "大模型训练与推理部署工程师",
+        "task": "eval_generate_scoring_criteria"
+      },
+      "expected_keywords": ["Transformer", "LoRA", "Docker", "昇腾", "模型并行"],
+      "required_sections": ["学历", "经验", "技能", "项目", "加分", "淘汰"],
+      "forbidden_keywords": ["总分120", "满分150", "仅限博士"],
+      "min_length": 300,
+      "rubric": "评分标准应对应长沙大模型训练与推理部署岗位，总分100分；重点量化 Transformer/LoRA、精度类型、KV Cache、并行训练、RAG/Agent、Docker/ONNX、昇腾或 NVIDIA 部署、多卡推理训练和数据标注经验。门槛应允许优秀项目实践，不得擅自要求博士或多年管理经验。",
+      "tags": ["评分标准", "大模型训练", "推理部署", "昇腾", "对应jd_004"]
+    }
+  ]
+}

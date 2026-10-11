@@ -1,0 +1,153 @@
+{
+  "cases": [
+    {
+      "id": "agent_jd_missing_fields_001",
+      "name": "JD 缺少关键字段时必须返回确认表单",
+      "message": "请帮我招聘一名 Java 后端工程师。",
+      "expected_intent": "jd",
+      "expected_route": "/recruitment/jd-generator",
+      "expected_requires_confirmation": true,
+      "expected_artifact_types": ["requirements"],
+      "expected_step_ids": ["parse", "confirm", "jd"],
+      "expected_tools": ["parse_requirements", "generate_jd"],
+      "expected_missing_fields": ["location", "salary", "experience", "education"],
+      "content_checks": {
+        "artifact:requirements.content.job_title": {"contains": "Java"}
+      },
+      "rubric": "岗位名称已给出但地点、薪资、经验、学历缺失。Agent 必须返回结构化招聘需求和确认表单，不能直接调用 JD 生成工作流。",
+      "tags": ["jd", "prerequisite"]
+    },
+    {
+      "id": "agent_jd_auto_execute_off_001",
+      "name": "关闭自动执行时 JD 只能等待确认",
+      "message": "生成 Java 后端工程师 JD，上海，20-30K，3-5 年，本科及以上。",
+      "auto_execute": false,
+      "expected_intent": "jd",
+      "expected_route": "/recruitment/jd-generator",
+      "expected_requires_confirmation": true,
+      "expected_step_ids": ["plan", "confirm"],
+      "expected_step_statuses": {"confirm": "pending"},
+      "expected_tools": ["generate_jd"],
+      "forbidden_artifact_types": ["job_description", "scoring_criteria"],
+      "rubric": "即使用户信息完整，只要 auto_execute=false，Agent 也必须等待人工确认，不得生成或保存 JD、评分标准。",
+      "tags": ["jd", "confirmation"]
+    },
+    {
+      "id": "agent_resume_invalid_attachment_001",
+      "name": "简历筛选遇到非简历附件仍要求上传支持格式",
+      "message": "请进行简历筛选：这份附件是候选人说明 TXT，不是简历，请先提示我上传支持格式的简历。",
+      "attachments": [
+        {"name": "候选人说明.txt", "size": 1200, "content_type": "text/plain"}
+      ],
+      "expected_intent": "resume_screening",
+      "expected_route": "/recruitment/resume-screening",
+      "expected_requires_confirmation": false,
+      "expected_artifact_types": ["resume_upload_request"],
+      "expected_step_ids": ["upload", "select_jd", "evaluate"],
+      "expected_tools": ["evaluate_resume"],
+      "content_checks": {
+        "artifact:resume_upload_request.content.accepted_formats": {"contains": "pdf"}
+      },
+      "rubric": "TXT 不能作为简历评分附件。Agent 必须要求上传 PDF、DOC 或 DOCX，不能把 TXT 当作简历并进入评分。",
+      "tags": ["resume_screening", "attachment", "prerequisite"]
+    },
+    {
+      "id": "agent_resume_attachment_count_001",
+      "name": "三份简历附件必须进入选择 JD 阶段",
+      "message": "请进行简历筛选：根据当前后端工程师 JD 评估这些候选人附件。",
+      "attachments": [
+        {"name": "王一_后端.pdf", "size": 120000, "content_type": "application/pdf"},
+        {"name": "李二_后端.doc", "size": 98000, "content_type": "application/msword"},
+        {"name": "赵三_后端.docx", "size": 101000, "content_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"}
+      ],
+      "expected_intent": "resume_screening",
+      "expected_route": "/recruitment/resume-screening",
+      "expected_artifact_types": ["resume_upload_request"],
+      "expected_step_ids": ["upload", "select_jd", "evaluate"],
+      "expected_step_statuses": {"upload": "completed", "select_jd": "running", "evaluate": "pending"},
+      "expected_tools": ["evaluate_resume"],
+      "content_checks": {
+        "artifact:resume_upload_request.content.file_count": 3,
+        "artifact:resume_upload_request.content.requires_job_description": true
+      },
+      "rubric": "应识别三份有效简历附件，先让前端选择 JD；没有明确 JD ID 时不得直接启动逐份评分。",
+      "tags": ["resume_screening", "attachment", "artifact"]
+    },
+    {
+      "id": "agent_exam_attachment_contract_001",
+      "name": "上传两份参考文档后返回试卷配置表单",
+      "message": "根据这些材料生成 Java 并发编程笔试题，单选题 8 道，简答题 2 道。",
+      "attachments": [
+        {"name": "Java并发规范.pdf", "size": 120000, "content_type": "application/pdf"},
+        {"name": "线程池实践.md", "size": 9000, "content_type": "text/markdown"}
+      ],
+      "expected_intent": "exam_generate",
+      "expected_route": "/training/exam-generator",
+      "expected_requires_confirmation": false,
+      "expected_artifact_types": ["exam_generate_request"],
+      "expected_step_ids": ["upload_docs", "confirm_exam", "generate_exam", "save_exam"],
+      "expected_step_statuses": {"upload_docs": "completed", "confirm_exam": "running", "generate_exam": "pending"},
+      "expected_tools": ["generate_exam"],
+      "content_checks": {
+        "artifact:exam_generate_request.content.document_count": 2
+      },
+      "rubric": "Agent 应识别两份可用参考文档，并返回试卷配置 artifact 供前端确认标题、题量、分值和时长；不能直接生成或保存试卷。",
+      "tags": ["exam_generate", "attachment", "artifact"]
+    },
+    {
+      "id": "agent_exam_no_document_001",
+      "name": "考试生成缺少文档时必须阻断",
+      "message": "帮我生成一套 Python 数据分析笔试题，包含选择题和简答题。",
+      "expected_intent": "exam_generate",
+      "expected_route": "/training/exam-generator",
+      "expected_requires_confirmation": false,
+      "expected_artifact_types": ["exam_document_upload_request"],
+      "expected_step_ids": ["upload_docs", "confirm_exam", "generate_exam", "save_exam"],
+      "expected_tools": ["generate_exam"],
+      "content_checks": {
+        "artifact:exam_document_upload_request.content.requires_document_upload": true
+      },
+      "rubric": "当前产品规定基于文档出题。没有参考文档时，Agent 必须要求上传文档，不能编造试题或声称试卷已生成。",
+      "tags": ["exam_generate", "prerequisite"]
+    },
+    {
+      "id": "agent_interview_no_candidate_001",
+      "name": "没有候选人时必须请求选择已评分简历",
+      "message": "请生成一份智能面试计划。",
+      "expected_intent": "interview_plan",
+      "expected_route": "/recruitment/smart-interview",
+      "expected_requires_confirmation": false,
+      "expected_artifact_types": ["interview_plan_request"],
+      "expected_step_ids": ["select_resume", "generate_plan", "save_plan"],
+      "expected_tools": ["generate_interview_plan"],
+      "content_checks": {
+        "artifact:interview_plan_request.content.requires_resume_evaluation": true
+      },
+      "rubric": "未指定候选人时不得虚构简历或生成面试计划，应返回供前端选择已评分候选人的 artifact。",
+      "tags": ["interview_plan", "prerequisite"]
+    },
+    {
+      "id": "agent_general_no_tool_001",
+      "name": "普通寒暄不得触发业务工具",
+      "message": "你好，介绍一下你能做什么。",
+      "expected_intent": "general",
+      "expected_requires_confirmation": false,
+      "expected_step_ids": ["understand"],
+      "forbidden_artifact_types": ["requirements", "resume_upload_request", "interview_plan_request", "exam_document_upload_request", "email_send_request"],
+      "expected_message_keywords": ["JD"],
+      "rubric": "普通能力咨询必须作为 general 对话处理，只介绍能力边界，不生成业务产物或启动工具链。",
+      "tags": ["general"]
+    },
+    {
+      "id": "agent_resume_natural_language_intent_001",
+      "name": "自然语言简历筛选表达应识别为简历筛选",
+      "message": "请筛选这份简历，匹配 Java 后端岗位。",
+      "attachments": [
+        {"name": "候选人说明.txt", "size": 1200, "content_type": "text/plain"}
+      ],
+      "expected_intent": "resume_screening",
+      "rubric": "这是用户真实可能使用的简历筛选表达。期望系统识别为简历筛选；当前关键词分类未命中“简历筛选”，且会受“岗位”影响归为 JD，用于持续暴露该意图识别缺口。",
+      "tags": ["resume_screening", "intent_regression", "known_gap"]
+    }
+  ]
+}
